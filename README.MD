@@ -39,7 +39,7 @@ Go to your terminal
 Copy the Postgres IPAddress 
 - eg. 172.18.0.2 (This is an example, we are going to paste this later to connect)
    
-### Connect Postgres so pgAdmin
+### Connect Postgres to pgAdmin
 Connect to server
 - Top left, right click, go to Register-> Server
 General tab
@@ -114,6 +114,6 @@ result_query.sql ===> Queries of the results above
 data creation ===> Data used to create the tables in pgAdmin
 ```
 
-***Note: In the pgAdmin database, all these data (raw + cleaned) are also mounted as volumes, so the data is persitent even if pgAdmin is closed, and open again, the data will still be there.**
+***Note: In the pgAdmin database, all these data (raw + cleaned) are also mounted as volumes, so the data is persitent even if pgAdmin is closed, and open again, the data will still exist.**
 
 
