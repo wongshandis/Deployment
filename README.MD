@@ -48,6 +48,8 @@ Connection tab
     Maintenance database: postgres
     - Username: postgres
     - Password: postgres
+    
+    
 Save!
 
 
