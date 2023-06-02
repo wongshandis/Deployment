@@ -17,9 +17,9 @@
 # Docker deployment
 ### Start servers
 Go to directory
-```cd docker_deployment```
+- ```cd docker_deployment```
 Start server
-```sh ./local_start.sh ```
+- ```sh ./local_start.sh ```
 Internally it runs the docker-compose file to start Postgresql + pgAdmin:
     - it runs this docker-compose -f docker-compose.yaml up -d
     - I created the shell script is because I want to encapsulate it, so user don't have to type in the docker compose commads
@@ -27,34 +27,43 @@ Internally it runs the docker-compose file to start Postgresql + pgAdmin:
 Check IP address, find the postgres container's IPAddress  
 - ```docker inspect <container-name>```
          eg. docker inspect postgres
-         in my case it's "IPAddress": "172.19.0.2"
+         example in my case is "IPAddress": "172.19.0.4"
 
 ### Access PGadmin by accessing http://localhost:5001 on your browser
+
+
 Login
 - Username: admin@admin.com
 - Password: admin
-- Get the postgres IP to connect
-Go to your terminal
-- ```docker inspect postgres```
+
+Get the postgres IP to connect
+- Go to your terminal
+    - ```docker inspect postgres```
+
 Copy the Postgres IPAddress 
-- eg. 172.18.0.2 (This is an example, we are going to paste this later to connect)
-   
+- eg. 172.18.0.2 
+- We are going to paste this later to connect
+
 ### Connect Postgres to pgAdmin
-Connect to server
-- Top left, right click, go to Register-> Server
+Inside the pgADmin server
+- Right click and click on Register-> Server
+
 General tab
 - Name: postgresdb
+ 
+On the command-line 
+-```docker inspect postgres```
+
 Connection tab
-    Connect to Postgres
-        On the command-line 
-        - ```docker inspect postgres```
-    Connection tab
-    - Host name/address: 172.20.0.2 <$Postgres IPAddress>
-    -  Port: 5432
-    - Maintenance database: postgres
-    - Username: postgres
-    - Password: postgres
+- Host name/address: 172.20.0.2 <$Postgres IPAddress>
+-  Port: 5432
+- Maintenance database: postgres
+- Username: postgres
+- Password: postgres
   
+
+Done!
+
 Destroy all servers once you are done easily
 ```sh ./local_destroy.sh ```
 
@@ -64,56 +73,77 @@ Destroy all servers once you are done easily
 # Kubernetes deployment
 ### Start servers
 Start kubernetes cluster
-```minikube start```
+- ```minikube start```
+
 Go to directory
-```cd k8_deployment/services```
+- ```cd k8_deployment/services```
+
 Runs all the manifest .yaml file to start pdAgmin and Postgres
-```sh ./start_pgadmin.sh```
-```sh ./start_postgres.sh```
+- ```sh ./start_pgadmin.sh```
+- ```sh ./start_postgres.sh```
 Internally it is running kubectl apply -f deployment.yaml, kubectl apply -f services.yaml, ...etc
 
-Expose external IP as I am using a load balancer
-```minikube tunnel```
-
-Open another termial
-```kubectl get all```
-Copy the External IP of pdagmin
-
+Expose external IP as I am using load balancer 
+- ```minikube tunnel```
+- Leave it running, don't close it
 
 ### Connect to pgAdmin
-Paste the External IP it on your browser to access pgAdmin
+Open another termial
+- ```kubectl get all```
+
+Copy the External IP of pdagmin and paste the **External IP** on your browser to access pgAdmin
+Open another command-line 
+- ```docker inspect pdagmin```
+
+Go back to the pgAdmin
 Login
 - Username: admin@admin.com
 - Password: admin
 
 ### Connect to Postgres
-Top left, right click, go to 
-- Register-> Server
+
+On the command-line 
+- ```docker inspect postgres```
+- Copy the External IP of postgres (Will be needed for later)
+
+ 
+Inside the pgADmin server
+- Right click and click on Register-> Server
+
+
 General tab
 - Name: postgresdb
-- Connection tab
-Copy the External IP of postgres
-- Host name/address:  <$Postgres IPAddress >
+
+Connection tab
+- Host name/address:  <$Postgres External IP>
 - Port: 5432
 - Maintenance database: postgres
 - Username: postgres
 - Password: postgres
 
+Done!
 
 ***Note: This method will also work with Helm, by adding the Charts.yaml and Values.yaml, etc, and make changes to the syntax.**
 
 If given more time, I will complete it using Helm charts. Manage to get to postgresql helm charts working in helm, but its really messy now so will use the kubernetes for demo
 
 # Races of Marvel comics and DC comic results
+The results are uploaded at Results_for_Marvel_DC_Comics. All raw data and cleaned data is also mounted as volumes.
 
-The tables are uploaded at Results_for_Marvel_DC_Comics.
-```sh
-result_top3_race_DC_comic.csv ===> Top 3 races of DC comics
-result_top3_race_marvel_comic.csv ===> Top 3 races of Marvel comics
-result_query.sql ===> Queries of the results above
-data creation ===> Data used to create the tables in pgAdmin
-```
+What I've done to get the results of top 3 races for Marvel Comics and DC comics respectively
+- The .csv data has been stored into tables in pgAdmin by creating tables using postgresql
+- Created a excel with cleaned data that is needed for query (eg. removing unrelevant data)
+        - data_creation/cleaned_superhero_info.sql
+- Using (raw data + cleaned data) with postgresql query, collate them and I created another table out of it
+        - data_creation/cleaned_superhero_info.sql
+- Finally, using that table to get top 3 races for Marvel Comics and DC comics respectively
+        - ***result_top3_race_DC_comic.csv***
+        - ***result_top3_race_marvel_comic.csv***
+    
+The queries are here to achieve the results: 
+- result_query.sql 
 
-***Note: In the pgAdmin database, all these data (raw + cleaned) are also mounted as volumes, so the data is persitent even if pgAdmin is closed, and open again, the data will still exist.**
+''''
+***Note: In the pgAdmin database, all these data  (raw + cleaned) are also mounted as volumes, so the data is persistent even if pgAdmin is closed, and open again, the data will still exist.**
 
 
