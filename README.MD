@@ -18,6 +18,7 @@
 ### Start servers
 Go to directory
 - ```cd docker_deployment```
+
 Start server
 - ```sh ./local_start.sh ```
 Internally it runs the docker-compose file to start Postgresql + pgAdmin:
@@ -137,8 +138,8 @@ What I've done to get the results of top 3 races for Marvel Comics and DC comics
 - Using (raw data + cleaned data) with postgresql query, collate them and I created another table out of it
         - data_creation/cleaned_superhero_info.sql
 - Finally, using that table to get top 3 races for Marvel Comics and DC comics respectively
-        - ***result_top3_race_DC_comic.csv***
-        - ***result_top3_race_marvel_comic.csv***
+    - ***result_top3_race_DC_comic.csv***
+    - ***result_top3_race_marvel_comic.csv***
     
 The queries are here to achieve the results: 
 - result_query.sql 
