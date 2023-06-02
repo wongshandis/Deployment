@@ -1,6 +1,6 @@
 
 # TASK
-## My Installation
+## My Installations
 - virtualbox 
 - ubuntu
 - python
@@ -16,10 +16,14 @@
 
 # Docker deployment
 ### Start servers
-- cd docker_deployment
-- ```sh ./local_start.sh ```
+Go to directory
+```cd docker_deployment```
+Start server
+```sh ./local_start.sh ```
 Internally it runs the docker-compose file to start Postgresql + pgAdmin:
-    - ```docker-compose -f docker-compose.yaml up -d```
+    - it runs this docker-compose -f docker-compose.yaml up -d
+    - I created the shell script is because I want to encapsulate it, so user don't have to type in the docker compose commads
+    
 Check IP address, find the postgres container's IPAddress  
 - ```docker inspect <container-name>```
          eg. docker inspect postgres
@@ -51,26 +55,28 @@ Connection tab
     - Username: postgres
     - Password: postgres
   
-
-Destroy server once you are done
-- ```sh ./local_destroy.sh ```
+Destroy all servers once you are done easily
+```sh ./local_destroy.sh ```
 
 **Note: Logs can be viewed inside the docker container**
 
 
 # Kubernetes deployment
 ### Start servers
-- ```cd k8_deployment/services```
-- ```sh ./start_pgadmin.sh```
-- ```sh ./start_postgres.sh```
-Internally: It runs all the manifest .yaml file to start pdAgmin and Postgres
-eg. kubectl apply -f deployment.yaml, kubectl apply -f services.yaml, ...etc
+Start kubernetes cluster
+```minikube start```
+Go to directory
+```cd k8_deployment/services```
+Runs all the manifest .yaml file to start pdAgmin and Postgres
+```sh ./start_pgadmin.sh```
+```sh ./start_postgres.sh```
+Internally it is running kubectl apply -f deployment.yaml, kubectl apply -f services.yaml, ...etc
 
 Expose external IP as I am using a load balancer
-- ```minikube tunnel```
+```minikube tunnel```
 
 Open another termial
-- ```kubectl get all```
+```kubectl get all```
 Copy the External IP of pdagmin
 
 
@@ -96,7 +102,7 @@ Copy the External IP of postgres
 
 ***Note: This method will also work with Helm, by adding the Charts.yaml and Values.yaml, etc, and make changes to the syntax.**
 
-If given more time, I will complete it using Helm charts. 
+If given more time, I will complete it using Helm charts. Manage to get to postgresql helm charts working in helm, but its really messy now so will use the kubernetes for demo
 
 # Races of Marvel comics and DC comic results
 
