@@ -1,0 +1,10 @@
+CICD steps
+
+Connect to github, 
+Checkout to master
+Install the dependencies for the enviroment
+Download the source code from the repository
+(Artifact store in github that stores docker image)
+Docker build, push, logout 
+Deploy app to production environment 
+
