@@ -23,15 +23,13 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      #POSTGRES_DB: TEST_SM
-      #PGDATA: /var/lib/postgresql/data/pgdata
     volumes:
       - ./db:/var/lib/postgresql/data
     ports:
       - "5002:5432"
     container_name: postgres
     restart: unless-stopped
-   
+
 
 
 
