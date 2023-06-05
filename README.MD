@@ -56,7 +56,8 @@ On the command-line
 -```docker inspect postgres```
 
 Connection tab
-- Host name/address: 172.20.0.2 <$Postgres IPAddress>
+- Host name/address: <$Postgres IPAddress>
+    eg. 172.18.0.2 
 -  Port: 5432
 - Maintenance database: postgres
 - Username: postgres
@@ -131,9 +132,17 @@ If given more time, I will complete it using Helm charts. Manage to get to postg
 # Races of Marvel comics and DC comic results
 The results are uploaded at Results_for_Marvel_DC_Comics. All raw data and cleaned data is also mounted as volumes.
 
-What I've done to get the results of top 3 races for Marvel Comics and DC comics respectively
+### Findings:
+- Data is incomplete
+    - Names from different .csv tables don't match up 
+- I used marvel_characters_info.csv as the base, as that has the Race column that we need for the results 
+    - Race column has missing race, so in my query, I've excluded race that is '-' (In other words, it's NULL)
+- Only include data that durability is TRUE
+
+
+### Steps to get results of top 3 races for Marvel Comics and DC comics respectively
 - The .csv data has been stored into tables in pgAdmin by creating tables using postgresql
-- Created a excel with cleaned data that is needed for query (eg. removing unrelevant data)
+- Created a table with cleaned data that is needed for query (eg. removing unrelevant data)
         - data_creation/cleaned_superhero_info.sql
 - Using (raw data + cleaned data) with postgresql query, collate them and I created another table out of it
         - data_creation/cleaned_superhero_info.sql
@@ -142,9 +151,11 @@ What I've done to get the results of top 3 races for Marvel Comics and DC comics
     - ***result_top3_race_marvel_comic.csv***
     
 The queries are here to achieve the results: 
-- result_query.sql 
+- ***result_query.sql***
+
+All the tables are added into pgAdmin for easy accessible for analyst data scientist.
 
 ''''
-***Note: In the pgAdmin database, all these data  (raw + cleaned) are also mounted as volumes, so the data is persistent even if pgAdmin is closed, and open again, the data will still exist.**
+***Note: In the pgAdmin database, all these data  (raw + cleaned) are also mounted as volumes, so the data is persistent even if pgAdmin is closed, and reopen again, the data will still exist.**
 
 
